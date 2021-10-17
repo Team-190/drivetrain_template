@@ -32,14 +32,12 @@ public class DefaultDriveCommand extends CommandBase {
         addRequirements(drivetrain);
     }
 
-    @Override
     public void initialize() {
     }
 
     /**
      * Take the values from the controllers and the current styles in the robot container and set the drive based upon it
      */
-    @Override
     public void execute() {
 
         double throttleLeftValue = 0.0;
@@ -49,7 +47,11 @@ public class DefaultDriveCommand extends CommandBase {
         switch (input_method) {
             case STICKS:
                 throttleLeftValue = leftStick.getY();
-                rotationRightValue = rightStick.getY();
+                if (currentDriveStyle == Constants.DrivetrainConstants.DRIVE_STYLE.ARCADE || currentDriveStyle == Constants.DrivetrainConstants.DRIVE_STYLE.CURVATURE) {
+                    rotationRightValue = rightStick.getX();
+                } else {
+                    rotationRightValue = rightStick.getY();
+                }
                 squareQuickTurn = rightStick.getTrigger();
                 break;
             case CONTROLLER:
@@ -78,7 +80,6 @@ public class DefaultDriveCommand extends CommandBase {
     }
 
     /** At the end, stop the drivetrain. */
-    @Override
     public void end(boolean interrupted) {
         drivetrain.arcadeDrive(0.0, 0.0, false);
     }
