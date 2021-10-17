@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.drivetrain.DefaultDriveCommand;
 import frc.robot.input.AttackThree;
@@ -35,10 +33,9 @@ public class RobotContainer {
   public final AttackThree leftStick = new AttackThree(Constants.InputConstants.LEFT_JOYSTICK_CHANNEL);
   public final AttackThree rightStick = new AttackThree(Constants.InputConstants.RIGHT_JOYSTICK_CHANNEL);
   public final XboxController driverXboxController = new XboxController(Constants.InputConstants.DRIVER_XBOX_CHANNEL);
-  public final XboxController operatorXboxController = new XboxController(Constants.InputConstants.OPERATOR_XBOX_CHANNEL);
 
   /*
-   * Input Methods
+   * Input Methods (Change these to change how the robot works)
    */
   public DRIVE_STYLE currentDriveStyle = DRIVE_STYLE.TANK;
   public INPUT_METHOD input_method = INPUT_METHOD.STICKS;

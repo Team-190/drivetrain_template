@@ -1,22 +1,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends SubsystemBase {
-
-    // Navx Sensor
-    private final AHRS navx = new AHRS(SerialPort.Port.kMXP);
 
     private final WPI_TalonFX leftLeader = new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER_CHANNEL);
     private final WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER_CHANNEL);
@@ -28,9 +19,6 @@ public class Drivetrain extends SubsystemBase {
     private final SpeedControllerGroup rightSide = new SpeedControllerGroup(rightLeader, rightFollower);
     
     private final DifferentialDrive differentialDrive = new DifferentialDrive(leftSide, rightSide);
-
-    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
-            Rotation2d.fromDegrees(-Math.IEEEremainder(navx.getYaw(), 360)));
 
     public Drivetrain() {
 
@@ -78,18 +66,6 @@ public class Drivetrain extends SubsystemBase {
         motorController.config_kI(DrivetrainConstants.SLOT_ID, I);
         motorController.config_kD(DrivetrainConstants.SLOT_ID, D);
         motorController.config_kF(DrivetrainConstants.SLOT_ID, F);
-    }
-
-    /**
-     * Sets mode of falcons
-     *
-     * @param mode mode to set the falcons (break or coast)
-     */
-    public void setNeutralMode(NeutralMode mode) {
-        leftLeader.setNeutralMode(mode);
-        leftFollower.setNeutralMode(mode);
-        rightLeader.setNeutralMode(mode);
-        rightFollower.setNeutralMode(mode);
     }
 
     /**
