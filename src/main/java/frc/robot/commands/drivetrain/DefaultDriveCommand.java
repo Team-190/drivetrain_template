@@ -30,7 +30,7 @@ public class DefaultDriveCommand extends CommandBase {
 
         addRequirements(drivetrainSubsystem);
     }
-    
+
     @Override
     public void initialize() {}
 
