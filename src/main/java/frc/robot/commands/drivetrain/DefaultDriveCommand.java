@@ -30,7 +30,7 @@ public class DefaultDriveCommand extends CommandBase {
 
         addRequirements(drivetrainSubsystem);
     }
-
+    
     @Override
     public void initialize() {}
 
@@ -38,7 +38,6 @@ public class DefaultDriveCommand extends CommandBase {
      * Take the values from the controllers and the current styles in the robot container and set the
      * drive based upon it
      */
-    @Override
     public void execute() {
 
         double throttleLeftValue = 0.0;
@@ -55,7 +54,6 @@ public class DefaultDriveCommand extends CommandBase {
                     throttleLeftValue = rightStick.getY();
                     rotationRightValue = leftStick.getY();
                 }
-
                 break;
             case CONTROLLER:
                 // driverXboxController.getRawAxis(0) // Left side x axis
@@ -84,7 +82,6 @@ public class DefaultDriveCommand extends CommandBase {
     }
 
     /** At the end, stop the drivetrain. */
-    @Override
     public void end(boolean interrupted) {
         drivetrainSubsystem.arcadeDrive(0.0, 0.0, false);
     }
