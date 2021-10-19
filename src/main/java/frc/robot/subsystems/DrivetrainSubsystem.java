@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
 
-public class Drivetrain extends SubsystemBase {
+public class DrivetrainSubsystem extends SubsystemBase {
 
     private final WPI_TalonFX leftLeader = new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER_CHANNEL);
     private final WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER_CHANNEL);
@@ -20,7 +20,7 @@ public class Drivetrain extends SubsystemBase {
     
     private final DifferentialDrive differentialDrive = new DifferentialDrive(leftSide, rightSide);
 
-    public Drivetrain() {
+    public DrivetrainSubsystem() {
 
         // Reset configuration to defaults
         leftLeader.configFactoryDefault();

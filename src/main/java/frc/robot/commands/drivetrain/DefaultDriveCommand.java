@@ -1,20 +1,19 @@
 package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.input.AttackThree;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.input.XboxOneController;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 /** Default Drive Command */
 public class DefaultDriveCommand extends CommandBase {
-    private final Drivetrain drivetrain;
+    private final DrivetrainSubsystem drivetrainSubsystem;
 
     private final AttackThree leftStick;
     private final AttackThree rightStick;
-    private final XboxController driverXbox;
+    private final XboxOneController driverXbox;
 
     private final Constants.InputConstants.INPUT_METHOD input_method;
     private final Constants.DrivetrainConstants.DRIVE_STYLE currentDriveStyle;
@@ -24,20 +23,20 @@ public class DefaultDriveCommand extends CommandBase {
         this.rightStick = robotContainer.rightStick;
         this.driverXbox = robotContainer.driverXboxController;
 
-        this.drivetrain = robotContainer.drivetrain;
+        this.drivetrainSubsystem = robotContainer.drivetrainSubsystem;
 
-        this.input_method = robotContainer.input_method;
+        this.input_method = robotContainer.driver_input_method;
         this.currentDriveStyle = robotContainer.currentDriveStyle;
 
-        addRequirements(drivetrain);
+        addRequirements(drivetrainSubsystem);
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     /**
-     * Take the values from the controllers and the current styles in the robot container and set the drive based upon it
+     * Take the values from the controllers and the current styles in the robot container and set the
+     * drive based upon it
      */
     @Override
     public void execute() {
@@ -48,16 +47,22 @@ public class DefaultDriveCommand extends CommandBase {
 
         switch (input_method) {
             case STICKS:
-                throttleLeftValue = leftStick.getY();
-                rotationRightValue = rightStick.getY();
-                squareQuickTurn = rightStick.getTrigger();
+                if (currentDriveStyle == Constants.DrivetrainConstants.DRIVE_STYLE.ARCADE
+                        || currentDriveStyle == Constants.DrivetrainConstants.DRIVE_STYLE.MCFLY) {
+                    throttleLeftValue = leftStick.getY();
+                    rotationRightValue = rightStick.getX();
+                } else {
+                    throttleLeftValue = rightStick.getY();
+                    rotationRightValue = leftStick.getY();
+                }
+
                 break;
             case CONTROLLER:
                 // driverXboxController.getRawAxis(0) // Left side x axis
-                throttleLeftValue = driverXbox.getRawAxis(1); // Left side Y axis
-                rotationRightValue = driverXbox.getRawAxis(2); // Right side X axis
+                throttleLeftValue = driverXbox.getLeftStickY(); // Left side Y axis
+                rotationRightValue = driverXbox.getRightStickX(); // Right side X axis
                 // driverXboxController.getRawAxis(3) // Right side Y axis
-                squareQuickTurn = driverXbox.getBumper(GenericHID.Hand.kLeft);
+                squareQuickTurn = driverXbox.getLeftBumper();
                 break;
             case KINECT:
                 // Bruh, I'm not sure
@@ -66,13 +71,14 @@ public class DefaultDriveCommand extends CommandBase {
 
         switch (currentDriveStyle) {
             case ARCADE:
-                drivetrain.arcadeDrive(throttleLeftValue, rotationRightValue, true);
+                drivetrainSubsystem.arcadeDrive(throttleLeftValue, rotationRightValue, true);
                 break;
             case TANK:
-                drivetrain.westCoastDrive(throttleLeftValue, rotationRightValue, true);
+                drivetrainSubsystem.westCoastDrive(throttleLeftValue, rotationRightValue, false);
                 break;
-            case CURVATURE:
-                drivetrain.curvatureDrive(throttleLeftValue, rotationRightValue, squareQuickTurn);
+            case MCFLY:
+                squareQuickTurn = rightStick.getTopPressed();
+                drivetrainSubsystem.curvatureDrive(throttleLeftValue, rotationRightValue, squareQuickTurn);
                 break;
         }
     }
@@ -80,6 +86,6 @@ public class DefaultDriveCommand extends CommandBase {
     /** At the end, stop the drivetrain. */
     @Override
     public void end(boolean interrupted) {
-        drivetrain.arcadeDrive(0.0, 0.0, false);
+        drivetrainSubsystem.arcadeDrive(0.0, 0.0, false);
     }
 }
