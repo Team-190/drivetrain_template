@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class XboxOneController extends Joystick {
     /**
-     * Initializes an Xbox One controller on a specific channel, mapping the buttons
-     *
-     * @param port the port the controller is plugged into
-     */
+    * Initializes an Xbox One controller on a specific channel, mapping the buttons
+    *
+    * @param port the port the controller is plugged into
+    */
     public XboxOneController(int port) {
         super(port);
     }
@@ -31,92 +31,92 @@ public class XboxOneController extends Joystick {
     private short m_rightRumble;
 
     /**
-     * Gets the state of the Left Bumper for use in Quick Turn
-     *
-     * @return boolean True or False
-     */
+    * Gets the state of the Left Bumper for use in Quick Turn
+    *
+    * @return boolean True or False
+    */
     public boolean getLeftBumper() {
         return leftBumper.get();
     }
 
     /**
-     * Get the position of the Left Stick X Axis
-     *
-     * @return the value of the axis
-     */
+    * Get the position of the Left Stick X Axis
+    *
+    * @return the value of the axis
+    */
     public double getLeftStickX() {
         return this.getRawAxis(0);
     }
 
     /**
-     * Gets the position of the Left Stick Y Axis
-     *
-     * @return the value of the axis
-     */
+    * Gets the position of the Left Stick Y Axis
+    *
+    * @return the value of the axis
+    */
     public double getLeftStickY() {
         return this.getRawAxis(1);
     }
 
     /**
-     * Gets the position of the Left Trigger
-     *
-     * @return the value of the trigger axis
-     */
+    * Gets the position of the Left Trigger
+    *
+    * @return the value of the trigger axis
+    */
     public double getLeftTrigger() {
         return this.getRawAxis(2);
     }
 
     /**
-     * Gets the position of the Right Trigger
-     *
-     * @return the value of the trigger axis
-     */
+    * Gets the position of the Right Trigger
+    *
+    * @return the value of the trigger axis
+    */
     public double getRightTrigger() {
         return this.getRawAxis(3);
     }
 
     /**
-     * Gets the position of the Right X Axis
-     *
-     * @return the value of the axis
-     */
+    * Gets the position of the Right X Axis
+    *
+    * @return the value of the axis
+    */
     public double getRightStickX() {
         return this.getRawAxis(4);
     }
 
     /**
-     * Gets the position of the Right Y Axis
-     *
-     * @return the value of the axis
-     */
+    * Gets the position of the Right Y Axis
+    *
+    * @return the value of the axis
+    */
     public double getRightStickY() {
         return this.getRawAxis(5);
     }
 
     /**
-     * Gets the position of the DPad X Axis
-     *
-     * @return the value of the axis
-     */
+    * Gets the position of the DPad X Axis
+    *
+    * @return the value of the axis
+    */
     public double getDPayX() {
         return this.getRawAxis(6);
     }
 
     /**
-     * Gets the position of the DPad Y Axis
-     *
-     * @return the value of the axis
-     */
+    * Gets the position of the DPad Y Axis
+    *
+    * @return the value of the axis
+    */
     public double getDPadY() {
         return this.getRawAxis(7);
     }
 
     /**
-     * Sets the magnitude of rumble in the controller
-     *
-     * @param leftValue the left rumble value
-     * @param rightValue the right rumble value
-     */
+    * Sets the magnitude of rumble in the controller
+    *
+    * @param leftValue the left rumble value
+    * @param rightValue the right rumble value
+    */
     public void setRumble(double leftValue, double rightValue) {
         setRumble(RumbleType.kLeftRumble, leftValue);
         setRumble(RumbleType.kRightRumble, rightValue);
